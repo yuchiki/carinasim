@@ -10,11 +10,10 @@ namespace CarinaSim
         {
             var program = new MipsProgram("../../mandelbrot.o");
             Console.SetOut(new StreamWriter("output.output"));
-            var sim = new Simulator(program);
-            sim.Initialize();
-
             var s = new Stopwatch();
             s.Start();
+            var sim = new Simulator(program);
+            sim.Initialize();
             while (sim.DoStep())
             {
             }

@@ -7,8 +7,9 @@ namespace CarinaSim
     public class Simulator
     {
         public readonly MipsProgram Program;
-        const int STACKBYTES = 0x0010_0000;
+        const int STACKWORDS = 0x0010_0000;
         List<UInt32> Mem;
+        List<Instruction.Inst> Insts;
 
 
         UInt32[] GPR = new UInt32[32];
@@ -31,10 +32,15 @@ namespace CarinaSim
         {
             PC = Program.Info.entrypoint;
             GPR[29] = Program.Info.stackoffset;
-            Mem = new List<uint>((int)((STACKBYTES) ));
+            Mem = new List<UInt32>((int)((STACKWORDS) ));
             Mem.AddRange(Program.program);
-            Mem.AddRange(Enumerable.Repeat((uint)0x0000DEAD, STACKBYTES));
-            //　スタックポインタの初期化などはコンパイラさんがやってくださっていた。　ありがたや
+            Mem.AddRange(Enumerable.Repeat((UInt32)0x0000DEAD, STACKWORDS));
+
+            Insts = new List<Instruction.Inst>((int)Program.Info.textsize);
+            for (int i = 0; i < (int)(Program.Info.textsize >> 2); i++)
+            {
+                Insts.Add(Instruction.Convert(Mem[(int)((Program.Info.textoffset >> 2) + i)]));
+            }
         }
 
         public bool DoStep()
@@ -43,7 +49,10 @@ namespace CarinaSim
             GPR[0] = 0;
             UInt32 nextPC = PC + 4;
             var inst = Mem[(int)(PC >> 2)];
-            switch (Instruction.Convert(inst))
+          //  Console.Error.Write(Instruction.Convert(inst));
+          //  Console.Error.Write(Insts[(int)(PC >> 2)]);
+          //  Console.Read();
+            switch (Insts[(int)(PC >> 2)])
             {
                 case Instruction.Inst.add:
                     GPR[inst.rd()] = GPR[inst.rs()] + GPR[inst.rt()];
@@ -114,14 +123,11 @@ namespace CarinaSim
                     break;
                 case Instruction.Inst.hlt:
                     Console.WriteLine();
-                    return false;
-                    
-                   
+                    return false;                              
                 case Instruction.Inst.input:
                     GPR[inst.rd()] = (uint)Console.Read();
                     break;
                 case Instruction.Inst.output:
-
                     Console.Write((char)GPR[inst.rt()]);
                     break;
                 case Instruction.Inst.bclt:
@@ -155,9 +161,8 @@ namespace CarinaSim
                     break;
                 case Instruction.Inst.lws:
                     FPR[inst.rt()] = Mem[(int)((GPR[inst.rs()] + inst.signExtIm()))].toSingle(Instruction.isLittleEndian);
-                     
                     break;
-                case Instruction.Inst.mult:
+                case Instruction.Inst.mult: //obsolete instruction
                     throw new Exception("mult?");
                 case Instruction.Inst.sws:
                     Mem[(int)((GPR[inst.rs()] + inst.signExtIm()))] = FPR[inst.rt()].ToUInt32(Instruction.isLittleEndian);

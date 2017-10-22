@@ -36,7 +36,7 @@ namespace CarinaSim
 
         public MipsProgram(FileStream f)
         {
-            BinaryReader reader = new BinaryReader(f);
+            var reader = new BinaryReader(f);
             if (new String(reader.ReadChars(4)) != "CARN")
                 throw new Exception("Not a carn file!");
 

@@ -51,9 +51,7 @@ namespace CarinaSim
             mult,
             sws,
 
-        }
-        ;
-
+        };
 
         public static readonly Dictionary<UInt32, Inst> InstTable = new Dictionary<uint, Inst>()
         {
@@ -106,7 +104,6 @@ namespace CarinaSim
             { 0x3e,Inst.cles },
             { 0x1,Inst.subs },
             { 0x2,Inst.muls }
-
         };
 
         public static Inst Convert(UInt32 inst)
@@ -129,8 +126,6 @@ namespace CarinaSim
                     }
                     break;
             }
-
-
             return res;
         }
     }
