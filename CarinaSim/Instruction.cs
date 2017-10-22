@@ -111,28 +111,22 @@ namespace CarinaSim
 
         public static Inst Convert(UInt32 inst)
         {
-           // var res = InstTable.GetOrDefault(inst.opecode(), Inst.dontknow);
             var res = InstTable[inst.opecode()];
             switch (res)
             {
                 case Inst.RformatVIRTUAL:
-                    //res = RFormatTable.GetOrDefault(inst.funct(), Inst.dontknow);
                     res = RFormatTable[inst.funct()];
                     break;
                 case Inst.FRformatVIRTUAL:
-                    //res = RFFormatTable.GetOrDefault(inst.fmt(), Inst.dontknow);
                     res = RFFormatTable[inst.fmt()];
                     if (res == Inst.singleVIRTUAL)
                     {
-                        //res = SingleTable.GetOrDefault(inst.funct(), Inst.dontknow);
                         res = SingleTable[inst.funct()];
                     }
                     else if (res == Inst.bclVIRTUAL)
                     {
                         res = (inst.ft() == 1) ? Inst.bclt : Inst.bclf;
                     }
-                    break;
-                default:
                     break;
             }
 

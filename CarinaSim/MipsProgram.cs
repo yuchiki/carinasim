@@ -26,10 +26,9 @@ namespace CarinaSim
             public UInt32 totalsize;
             public UInt32 stackoffset;
 
-            public override string ToString()
-            {
-                return $"text:{textoffset:X8}-{textoffset+textsize:X8}, data:{dataoffset:X8}-{dataoffset+datasize:X8}, stack:{stackoffset:X8}-, entrypoint:{entrypoint:X8}";
-            }
+            public override string ToString() =>
+              $"text:{textoffset:X8}-{textoffset+textsize:X8}, data:{dataoffset:X8}-{dataoffset+datasize:X8}, stack:{stackoffset:X8}-, entrypoint:{entrypoint:X8}";
+      
         }
 
         public readonly ProgramInfo Info;

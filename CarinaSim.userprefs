@@ -1,4 +1,4 @@
-﻿<Properties StartupItem="CarinaSim/CarinaSim.csproj">
+﻿<Properties StartupItem="CarinaSim/CarinaSim.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.Workbench ActiveDocument="CarinaSim/Program.cs">
     <Files>

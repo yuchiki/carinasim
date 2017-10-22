@@ -151,13 +151,10 @@ namespace CarinaSim
                     FPR[inst.fd()] = 1.0f / FPR[inst.ft()];
                     break;
                 case Instruction.Inst.subs:
-                //    Console.WriteLine(FPR[inst.fs()]);
-                //    Console.WriteLine(FPR[inst.ft()]);
-                    FPR[inst.fd()] = FPR[inst.fs()] - FPR[inst.ft()]; ///////??????????????????????????????????????????????
+                    FPR[inst.fd()] = FPR[inst.fs()] - FPR[inst.ft()];
                     break;
                 case Instruction.Inst.lws:
                     FPR[inst.rt()] = Mem[(int)((GPR[inst.rs()] + inst.signExtIm()))].toSingle(Instruction.isLittleEndian);
-                //    Console.WriteLine(FPR[inst.rt()]);
                      
                     break;
                 case Instruction.Inst.mult:
